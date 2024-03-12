@@ -5,6 +5,10 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
+
+	"internal/cache"
+	"internal/pokeapi"
 )
 
 const PROMPT = "Pokedex > "
@@ -12,10 +16,13 @@ const PROMPT = "Pokedex > "
 func startRepl() {
 	scanner := bufio.NewScanner(os.Stdin)
 	cliOptions := getCliOptions()
+	cache := cache.NewCache(time.Second * 5)
+	api := pokeapi.NewApi(cache)
 
 	c := Config{
 		previous: "",
 		next:     "https://pokeapi.co/api/v2/location-area/",
+		api:      api,
 	}
 
 	for {
@@ -51,6 +58,7 @@ type cliCommand struct {
 }
 
 type Config struct {
+	api      *pokeapi.PokeApi
 	next     string
 	previous string
 }

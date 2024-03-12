@@ -3,8 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-
-	"internal/pokeapi"
 )
 
 func commandMap(c *Config) error {
@@ -16,7 +14,7 @@ func commandMap(c *Config) error {
 
 	uri := c.next
 
-	response, err := pokeapi.GetLocationAreas(uri)
+	response, err := c.api.GetLocationAreas(uri)
 	if err != nil {
 		return err
 	}
@@ -42,7 +40,7 @@ func commandMapb(c *Config) error {
 		return errors.New("on the first page, cannot go back")
 	}
 
-	response, err := pokeapi.GetLocationAreas(uri)
+	response, err := c.api.GetLocationAreas(uri)
 	if err != nil {
 		return err
 	}
