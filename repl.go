@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+const PROMPT = "Pokedex > "
+
 func startRepl() {
 	scanner := bufio.NewScanner(os.Stdin)
 	cliOptions := getCliOptions()
@@ -15,6 +17,7 @@ func startRepl() {
 		previous: "",
 		next:     "https://pokeapi.co/api/v2/location-area/",
 	}
+
 	for {
 		fmt.Fprint(os.Stdout, PROMPT)
 

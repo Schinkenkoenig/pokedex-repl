@@ -23,7 +23,7 @@ func commandMap(c *Config) error {
 
 	response.PrintAreas()
 
-	updateConfig(c, response.Next, response.Previous)
+	c.updateConfig(response.Next, response.Previous)
 
 	return nil
 }
@@ -49,12 +49,12 @@ func commandMapb(c *Config) error {
 
 	response.PrintAreas()
 
-	updateConfig(c, response.Next, response.Previous)
+	c.updateConfig(response.Next, response.Previous)
 
 	return nil
 }
 
-func updateConfig(c *Config, next, prev string) {
+func (c *Config) updateConfig(next, prev string) {
 	c.next = next
 	c.previous = prev
 }
