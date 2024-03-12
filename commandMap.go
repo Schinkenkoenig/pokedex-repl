@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func commandMap(c *Config) error {
+func commandMap(c *Config, param string) error {
 	if c == nil {
 		return errors.New("nil pointer on config")
 	}
@@ -14,19 +14,19 @@ func commandMap(c *Config) error {
 
 	uri := c.next
 
-	response, err := c.api.GetLocationAreas(uri)
+	resp, err := c.api.GetLocationAreas(uri)
 	if err != nil {
 		return err
 	}
 
-	response.PrintAreas()
+	resp.PrintAreas()
 
-	c.updateConfig(response.Next, response.Previous)
+	c.updateConfig(resp.Next, resp.Previous)
 
 	return nil
 }
 
-func commandMapb(c *Config) error {
+func commandMapb(c *Config, param string) error {
 	if c == nil {
 		return errors.New("nil pointer on config")
 	}

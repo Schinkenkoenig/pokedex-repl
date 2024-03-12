@@ -1,9 +1,7 @@
 package pokeapi
 
 import (
-	"fmt"
-	"io"
-	"net/http"
+	"encoding/json"
 
 	"internal/cache"
 )
@@ -12,36 +10,32 @@ type PokeApi struct {
 	cache *cache.Cache
 }
 
-func NewApi(cache *cache.Cache) *PokeApi {
-	api := PokeApi{cache: cache}
-	return &api
+func (p *PokeApi) GetLocationAreas(uri string) (*LocationAreaResponse, error) {
+	respBody, err := p.get(uri)
+	if err != nil {
+		return nil, err
+	}
+
+	r := LocationAreaResponse{}
+	err = json.Unmarshal(respBody, &r)
+	if err != nil {
+		return nil, err
+	}
+
+	return &r, nil
 }
 
-func (p *PokeApi) pokeapiCall(uri string) ([]byte, error) {
-	cacheBody, ok := p.cache.Get(uri)
-
-	if ok {
-		return cacheBody, nil
-	}
-
-	res, err := http.Get(uri)
+func (p *PokeApi) GetPokemonInLocation(uri string) (*LocationAreaResponseDetail, error) {
+	respBody, err := p.get(uri)
 	if err != nil {
 		return nil, err
 	}
 
-	body, err := io.ReadAll(res.Body)
+	r := LocationAreaResponseDetail{}
+	err = json.Unmarshal(respBody, &r)
 	if err != nil {
 		return nil, err
 	}
 
-	res.Body.Close()
-
-	if res.StatusCode > 299 {
-		err := fmt.Errorf("response failed with status code: %d, body: %s", res.StatusCode, body)
-		return nil, err
-	}
-
-	p.cache.Add(uri, body)
-
-	return body, nil
+	return &r, nil
 }
