@@ -13,6 +13,7 @@ Usage:
 	for _, cmd := range getCliOptions() {
 		fmt.Printf("%s: %s\n", cmd.name, cmd.description)
 	}
+
 	fmt.Println()
 	return nil
 }
