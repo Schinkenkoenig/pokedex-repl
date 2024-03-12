@@ -11,6 +11,10 @@ func startRepl() {
 	scanner := bufio.NewScanner(os.Stdin)
 	cliOptions := getCliOptions()
 
+	c := Config{
+		previous: "",
+		next:     "https://pokeapi.co/api/v2/location-area/",
+	}
 	for {
 		fmt.Fprint(os.Stdout, PROMPT)
 
@@ -25,7 +29,10 @@ func startRepl() {
 		commandName := words[0]
 
 		if cmd, ok := cliOptions[commandName]; ok {
-			cmd.callback()
+			err := cmd.callback(&c)
+			if err != nil {
+				fmt.Println(err.Error())
+			}
 		} else {
 			fmt.Println("unknown cmd")
 			continue
@@ -35,9 +42,14 @@ func startRepl() {
 }
 
 type cliCommand struct {
-	callback    func() error
+	callback    func(c *Config) error
 	name        string
 	description string
+}
+
+type Config struct {
+	next     string
+	previous string
 }
 
 func getCliOptions() map[string]cliCommand {

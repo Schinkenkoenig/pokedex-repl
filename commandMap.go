@@ -1,15 +1,60 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+
+	"internal/pokeapi"
 )
 
-func commandMap() error {
-	fmt.Println("Show the next maps")
+func commandMap(c *Config) error {
+	if c == nil {
+		return errors.New("nil pointer on config")
+	}
+	fmt.Printf("%v\n", c)
+	defer fmt.Printf("%v\n", c)
+
+	uri := c.next
+
+	response, err := pokeapi.GetLocationAreas(uri)
+	if err != nil {
+		return err
+	}
+
+	response.PrintAreas()
+
+	updateConfig(c, response.Next, response.Previous)
+
 	return nil
 }
 
-func commandMapb() error {
-	fmt.Println("Show the previous maps")
+func commandMapb(c *Config) error {
+	if c == nil {
+		return errors.New("nil pointer on config")
+	}
+
+	fmt.Printf("%v\n", c)
+	defer fmt.Printf("%v\n", c)
+
+	uri := c.previous
+
+	if len(uri) == 0 {
+		return errors.New("on the first page, cannot go back")
+	}
+
+	response, err := pokeapi.GetLocationAreas(uri)
+	if err != nil {
+		return err
+	}
+
+	response.PrintAreas()
+
+	updateConfig(c, response.Next, response.Previous)
+
 	return nil
+}
+
+func updateConfig(c *Config, next, prev string) {
+	c.next = next
+	c.previous = prev
 }
