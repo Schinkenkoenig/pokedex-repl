@@ -37,9 +37,14 @@ func startRepl() {
 		}
 
 		commandName := words[0]
+		var param string
+
+		if len(words) == 2 {
+			param = words[1]
+		}
 
 		if cmd, ok := cliOptions[commandName]; ok {
-			err := cmd.callback(&c)
+			err := cmd.callback(&c, param)
 			if err != nil {
 				fmt.Println(err.Error())
 			}
@@ -52,7 +57,7 @@ func startRepl() {
 }
 
 type cliCommand struct {
-	callback    func(c *Config) error
+	callback    func(c *Config, param string) error
 	name        string
 	description string
 }
@@ -84,6 +89,11 @@ func getCliOptions() map[string]cliCommand {
 			name:        "mapb",
 			description: "Show the previous 20 map location.",
 			callback:    commandMapb,
+		},
+		"explore": {
+			name:        "explore {area-name}",
+			description: "Explores the given area. Maybe you will find a shiny.",
+			callback:    commandExplore,
 		},
 	}
 }
