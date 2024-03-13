@@ -11,7 +11,7 @@ func commandExplore(c *Config, param string) error {
 	}
 
 	if len(param) == 0 {
-		return errors.New("need a area param")
+		return errors.New("need an area param")
 	}
 
 	uri := fmt.Sprintf("https://pokeapi.co/api/v2/location-area/%s", param)

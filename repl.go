@@ -23,6 +23,7 @@ func startRepl() {
 		previous: "",
 		next:     "https://pokeapi.co/api/v2/location-area/",
 		api:      api,
+		pokedex:  make(map[string]pokeapi.PokemonSpeciesResponse),
 	}
 
 	for {
@@ -37,8 +38,8 @@ func startRepl() {
 		}
 
 		commandName := words[0]
-		var param string
 
+		var param string
 		if len(words) == 2 {
 			param = words[1]
 		}
@@ -64,6 +65,7 @@ type cliCommand struct {
 
 type Config struct {
 	api      *pokeapi.PokeApi
+	pokedex  map[string]pokeapi.PokemonSpeciesResponse
 	next     string
 	previous string
 }
@@ -94,6 +96,27 @@ func getCliOptions() map[string]cliCommand {
 			name:        "explore {area-name}",
 			description: "Explores the given area. Maybe you will find a shiny.",
 			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch {pokemon-name}",
+			description: "Trying to catch a pokemon. good luck",
+			callback:    commandCatch,
+		},
+		"inspect": {
+			name:        "inspect {pokemon-name}",
+			description: "inpsect a caught pokemon",
+			callback:    commandInspect,
+		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "Show what is in your pokedex",
+			callback: func(c *Config, param string) error {
+				fmt.Println("You catched: ")
+				for p := range c.pokedex {
+					fmt.Printf("  - %s\n", p)
+				}
+				return nil
+			},
 		},
 	}
 }

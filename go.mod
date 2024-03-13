@@ -6,6 +6,10 @@ require internal/pokeapi v1.0.0
 
 require internal/cache v1.0.0
 
+require internal/catch v1.0.0
+
+replace internal/catch => ./internal/catch
+
 replace internal/cache => ./internal/cache
 
 replace internal/pokeapi => ./internal/pokeapi
