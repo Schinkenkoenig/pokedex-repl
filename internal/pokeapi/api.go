@@ -3,7 +3,7 @@ package pokeapi
 import (
 	"encoding/json"
 
-	"internal/cache"
+	cache "github.com/Schinkenkoenig/pokedex-repl/internal/cache"
 )
 
 type PokeApi struct {

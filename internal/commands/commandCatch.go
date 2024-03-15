@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"internal/catch"
-	"internal/pokeapi"
+	catch "github.com/Schinkenkoenig/pokedex-repl/internal/catch"
+	pokeapi "github.com/Schinkenkoenig/pokedex-repl/internal/pokeapi"
 )
 
 func CommandCatch(c *Config, param string) error {
@@ -39,11 +39,11 @@ func CommandCatch(c *Config, param string) error {
 	printWobble(w3)
 
 	if res.IsFullCatch() {
+		c.Pokedex[response.Name] = *response
 		fmt.Printf("You catched %s!\n", response.Name)
 	} else {
 		fmt.Printf("You failed to catch %s\n", response.Name)
 	}
-	c.Pokedex[response.Name] = *response
 
 	return nil
 }

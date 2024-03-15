@@ -3,7 +3,7 @@ package commands
 import (
 	"errors"
 
-	"internal/pokeapi"
+	pokeapi "github.com/Schinkenkoenig/pokedex-repl/internal/pokeapi"
 )
 
 func CommandMap(c *Config, param string) error {

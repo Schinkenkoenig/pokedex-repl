@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"internal/cache"
-	"internal/commands"
-	"internal/pokeapi"
+	cache "github.com/Schinkenkoenig/pokedex-repl/internal/cache"
+	commands "github.com/Schinkenkoenig/pokedex-repl/internal/commands"
+	pokeapi "github.com/Schinkenkoenig/pokedex-repl/internal/pokeapi"
 )
 
 const PROMPT = "Pokedex > "
@@ -46,7 +46,7 @@ func StartRepl() {
 		}
 
 		if cmd, ok := cliOptions[commandName]; ok {
-			err := cmd.callback(&c, param)
+			err := cmd.Callback(&c, param)
 			if err != nil {
 				fmt.Println(err.Error())
 			}

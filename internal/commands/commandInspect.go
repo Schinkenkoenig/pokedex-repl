@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"internal/pokeapi"
+	pokeapi "github.com/Schinkenkoenig/pokedex-repl/internal/pokeapi"
 )
 
 func CommandInspect(c *Config, param string) error {

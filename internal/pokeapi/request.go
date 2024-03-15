@@ -5,7 +5,7 @@ import (
 	"io"
 	"net/http"
 
-	"internal/cache"
+	cache "github.com/Schinkenkoenig/pokedex-repl/internal/cache"
 )
 
 func NewApi(cache *cache.Cache) *PokeApi {

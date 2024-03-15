@@ -1,6 +1,6 @@
 package commands
 
-import "internal/pokeapi"
+import pokeapi "github.com/Schinkenkoenig/pokedex-repl/internal/pokeapi"
 
 type Config struct {
 	Api      *pokeapi.PokeApi
