@@ -1,5 +1,7 @@
 package main
 
+import "internal/repl"
+
 func main() {
-	startRepl()
+	repl.StartRepl()
 }

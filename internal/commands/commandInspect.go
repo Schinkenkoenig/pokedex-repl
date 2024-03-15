@@ -1,11 +1,13 @@
-package main
+package commands
 
 import (
 	"errors"
 	"fmt"
+
+	"internal/pokeapi"
 )
 
-func commandInspect(c *Config, param string) error {
+func CommandInspect(c *Config, param string) error {
 	if c == nil {
 		return errors.New("nil pointer on config")
 	}
@@ -14,12 +16,12 @@ func commandInspect(c *Config, param string) error {
 		return errors.New("need an pokemon name param")
 	}
 
-	if _, ok := c.pokedex[param]; !ok {
-		return fmt.Errorf("%s is not in the dex.", param)
+	if _, ok := c.Pokedex[param]; !ok {
+		return fmt.Errorf("%s is not in the dex", param)
 	}
 
 	uri := fmt.Sprintf("https://pokeapi.co/api/v2/pokemon/%s", param)
-	response, err := c.api.GetPokemon(uri)
+	response, err := pokeapi.GET[pokeapi.PokemonResponse](c.Api, uri)
 	if err != nil {
 		return err
 	}

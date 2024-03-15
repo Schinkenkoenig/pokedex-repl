@@ -1,4 +1,4 @@
-package main
+package commands
 
 import (
 	"errors"
@@ -6,9 +6,10 @@ import (
 	"time"
 
 	"internal/catch"
+	"internal/pokeapi"
 )
 
-func commandCatch(c *Config, param string) error {
+func CommandCatch(c *Config, param string) error {
 	if c == nil {
 		return errors.New("nil pointer on config")
 	}
@@ -19,13 +20,11 @@ func commandCatch(c *Config, param string) error {
 
 	uri := fmt.Sprintf("https://pokeapi.co/api/v2/pokemon-species/%s", param)
 	pokeUri := fmt.Sprintf("https://pokeapi.co/api/v2/pokemon/%s", param)
-	go c.api.GetPokemon(pokeUri)
-	response, err := c.api.GetPokemonSpecies(uri)
+	go pokeapi.GET[pokeapi.PokemonResponse](c.Api, pokeUri)
+	response, err := pokeapi.GET[pokeapi.PokemonSpeciesResponse](c.Api, uri)
 	if err != nil {
 		return err
 	}
-
-	fmt.Printf("%v\n", response)
 
 	catcher, err := catch.NewCatcher(catch.BOOTDEV)
 	if err != nil {
@@ -41,10 +40,10 @@ func commandCatch(c *Config, param string) error {
 
 	if res.IsFullCatch() {
 		fmt.Printf("You catched %s!\n", response.Name)
-		c.pokedex[response.Name] = *response
 	} else {
 		fmt.Printf("You failed to catch %s\n", response.Name)
 	}
+	c.Pokedex[response.Name] = *response
 
 	return nil
 }

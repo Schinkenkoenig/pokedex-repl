@@ -1,11 +1,13 @@
-package main
+package commands
 
 import (
 	"errors"
 	"fmt"
+
+	"internal/pokeapi"
 )
 
-func commandExplore(c *Config, param string) error {
+func CommandExplore(c *Config, param string) error {
 	if c == nil {
 		return errors.New("nil pointer on config")
 	}
@@ -15,7 +17,7 @@ func commandExplore(c *Config, param string) error {
 	}
 
 	uri := fmt.Sprintf("https://pokeapi.co/api/v2/location-area/%s", param)
-	response, err := c.api.GetPokemonInLocation(uri)
+	response, err := pokeapi.GET[pokeapi.LocationAreaResponseDetail](c.Api, uri)
 	if err != nil {
 		return err
 	}

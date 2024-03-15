@@ -1,15 +1,7 @@
 module github.com/Schinkenkoenig/pokedex-repl
 
-go 1.21.2
+go 1.22.1
 
-require internal/pokeapi v1.0.0
+require internal/repl v1.0.0
 
-require internal/cache v1.0.0
-
-require internal/catch v1.0.0
-
-replace internal/catch => ./internal/catch
-
-replace internal/cache => ./internal/cache
-
-replace internal/pokeapi => ./internal/pokeapi
+replace internal/repl => ./internal/repl
